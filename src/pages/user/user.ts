@@ -28,7 +28,7 @@ export class UserPage {
     });
   }
 
-  doFacebookbLogout(){
+  doFacebookLogout(){
     var nav = this.navCtrl;
     Facebook.logout()
     .then(function(response){

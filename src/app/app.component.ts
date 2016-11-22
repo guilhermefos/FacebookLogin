@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar, Splashscreen, NativeStorage } from 'ionic-native';
 
-import { LoginPage } from '../pages/login.login';
+import { LoginPage } from '../pages/login/login';
 import { UserPage } from '../pages/user/user';
 
 @Component({

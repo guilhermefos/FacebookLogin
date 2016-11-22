@@ -14,7 +14,7 @@ export class LoginPage {
     Facebook.browserInit(this.FB_APP_ID, "v2.8");
   }
 
-  doFacebookbLogin() {
+  doFacebookLogin() {
     let permissions = new Array();
     let nav = this.navCtrl;
     permissions = ["public_profile"];
@@ -22,12 +22,11 @@ export class LoginPage {
     Facebook.login(permissions)
     .then(function(response) {
       let userId = response.authResponse.userID;
-      let params = new Array();
+      let params = new Array<string>();
 
       Facebook.api("/me?fields=name,gender", params)
       .then(function(user) {
-        user.picture = "https://graph.facebook.com" + userId + "picture?type=large";
-
+        user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
         NativeStorage.setItem('user',
         {
           name: user.name,
