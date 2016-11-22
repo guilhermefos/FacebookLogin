@@ -16,7 +16,7 @@ export class LoginPage {
 
   doFacebookLogin() {
     let permissions = new Array();
-    let nav = this.navCtrl;
+    let navigationController = this.navCtrl;
     permissions = ["public_profile"];
 
     Facebook.login(permissions)
@@ -34,7 +34,7 @@ export class LoginPage {
           picture: user.picture
         })
         .then(function() {
-          nav.push(UserPage);
+          navigationController.push(UserPage);
         }, function(error) {
           console.log(error);
         })
