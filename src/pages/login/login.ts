@@ -1,19 +1,49 @@
 import { Component } from '@angular/core';
+import { Facebook, NativeStorage } from 'ionic-native';
 import { NavController } from 'ionic-angular';
+import { UserPage } from '../user/user';
 
-/*
-  Generated class for the Login page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
 })
 export class LoginPage {
+  FB_APP_ID: number = 370805299927580;
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController) {
+    Facebook.browserInit(this.FB_APP_ID, "v2.8");
+  }
+
+  doFacebookbLogin() {
+    let permissions = new Array();
+    let nav = this.navCtrl;
+    permissions = ["public_profile"];
+
+    Facebook.login(permissions)
+    .then(function(response) {
+      let userId = response.authResponse.userID;
+      let params = new Array();
+
+      Facebook.api("/me?fields=name,gender", params)
+      .then(function(user) {
+        user.picture = "https://graph.facebook.com" + userId + "picture?type=large";
+
+        NativeStorage.setItem('user',
+        {
+          name: user.name,
+          gender: user.gender,
+          picture: user.picture
+        })
+        .then(function() {
+          nav.push(UserPage);
+        }, function(error) {
+          console.log(error);
+        })
+      })
+    }, function(error) {
+      console.log(error);
+    });
+  }
 
   ionViewDidLoad() {
     console.log('Hello LoginPage Page');
